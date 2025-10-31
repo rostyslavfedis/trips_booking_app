@@ -24,10 +24,10 @@ export interface Place {
     createdBy: string;
 }
 
-export interface PlacesState {
-    places: Place[];
-    loading: boolean;
-    error: string | null;
+export interface NewPlace {
+    tripId: string;
+    locationName: string;
+    notes?: string;
+    dayNumber: number;
 }
-
 

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { fetchUserTrips } from "../features/trips/tripsThunks";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect} from "react";
+import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks";
+import {fetchUserTrips} from "../features/trips/tripsThunks";
+import {useNavigate} from "react-router-dom";
 
 export const TripsList: React.FC = () => {
     const dispatch = useAppDispatch();

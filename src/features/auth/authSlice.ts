@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loginUser, logoutUser, registerUser} from "./authThunk";
 
 type User = { uid: string; email: string };
@@ -8,7 +8,7 @@ type AuthState = {
     error: string | null;
 };
 
-const initialState: AuthState = { user: null, loading: false, error: null };
+const initialState: AuthState = {user: null, loading: false, error: null};
 
 const authSlice = createSlice({
     name: "auth",
@@ -48,10 +48,10 @@ const authSlice = createSlice({
                 state.error = action.payload as string;
             })
             .addCase(logoutUser.fulfilled, (state) => {
-            state.user = null;
-        });
+                state.user = null;
+            });
     },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const {setUser, logout} = authSlice.actions;
 export default authSlice.reducer;

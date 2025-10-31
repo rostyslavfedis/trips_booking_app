@@ -31,7 +31,7 @@ const Login: React.FC = () => {
                 gap: 2
             }}>
                 <Typography variant="h5" align="center" mb={3}>
-                    Вхід у систему
+                    SIGN IN
                 </Typography>
 
                 <form onSubmit={handleSubmit}>
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
                     />
                     <TextField
                         fullWidth
-                        label="Пароль"
+                        label="Password"
                         type="password"
                         margin="normal"
                         value={password}
@@ -65,13 +65,13 @@ const Login: React.FC = () => {
                         sx={{ mt: 3, mb: 2 }}
                         disabled={loading}
                     >
-                        {loading ? <CircularProgress size={24} /> : "Увійти"}
+                        {loading ? <CircularProgress size={24} /> : "Login"}
                     </Button>
 
                     <Typography variant="body2" align="center">
-                        Немає акаунта?{" "}
+                        Don’t have an account?{" "}
                         <Link onClick={() => navigate("/register")} sx={{ cursor: "pointer" }}>
-                            Зареєструватися
+                            Register
                         </Link>
                     </Typography>
                 </form>

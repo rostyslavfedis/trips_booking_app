@@ -1,30 +1,27 @@
 import React from "react";
-import { Box } from "@mui/material";
-import PlaceItem from "./PlaceItem";
+import {PlaceItem} from "./PlaceItem";
 import {Place} from "../../types";
 
-
-interface PlaceListProps {
+interface Props {
     places: Place[];
     onEdit: (place: Place) => void;
     onDelete: (id: string) => void;
-    canEdit: boolean;
 }
 
-const PlaceList: React.FC<PlaceListProps> = ({ places, onEdit, onDelete, canEdit }) => {
+export const PlaceList: React.FC<Props> = ({places, onEdit, onDelete}) => {
+    if (places.length === 0) return <p>Ще немає місць у цій подорожі.</p>;
+
     return (
-        <Box sx={{ mt: 3 }}>
+        <div>
             {places.map((place) => (
                 <PlaceItem
                     key={place.id}
                     place={place}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    canEdit={canEdit}
                 />
             ))}
-        </Box>
+        </div>
     );
 };
 
-export default PlaceList;

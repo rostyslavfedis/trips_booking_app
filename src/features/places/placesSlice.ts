@@ -1,82 +1,69 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { db } from "../../firebase/firebaseInit";
+import {createSlice} from "@reduxjs/toolkit";
 import {
-    collection,
-    addDoc,
-    getDocs,
-    deleteDoc,
-    doc,
-    updateDoc,
-    query,
-    where,
-    orderBy,
-} from "firebase/firestore";
-import {Place, PlacesState} from "../../types";
+    fetchPlaces,
+    addPlace,
+    updatePlace,
+    deletePlace,
+} from "./placesThunks";
+import {Place} from "../../types";
+
+interface PlacesState {
+    items: Place[];
+    loading: boolean;
+    error: string | null;
+}
 
 const initialState: PlacesState = {
-    places: [],
+    items: [],
     loading: false,
     error: null,
 };
 
-export const fetchPlaces = createAsyncThunk(
-    "places/fetchPlaces",
-    async (tripId: string) => {
-        const q = query(
-            collection(db, "places"),
-            where("tripId", "==", tripId),
-            orderBy("dayNumber", "asc")
-        );
-        const snapshot = await getDocs(q);
-        return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Place[];
-    }
-);
-
-export const addPlace = createAsyncThunk(
-    "places/addPlace",
-    async (place: Omit<Place, "id">) => {
-        const docRef = await addDoc(collection(db, "places"), place);
-        return { id: docRef.id, ...place };
-    }
-);
-
-export const updatePlace = createAsyncThunk(
-    "places/updatePlace",
-    async (place: Place | any) => {
-        const placeRef = doc(db, "places", place.id);
-        await updateDoc(placeRef, place);
-        return place;
-    }
-);
-
-export const deletePlace = createAsyncThunk(
-    "places/deletePlace",
-    async (id: string) => {
-        await deleteDoc(doc(db, "places", id));
-        return id;
-    }
-);
-
 const placesSlice = createSlice({
     name: "places",
     initialState,
-    reducers: {},
+    reducers: {
+        clearPlaces: (state) => {
+            state.items = [];
+            state.error = null;
+        },
+    },
     extraReducers: (builder) => {
         builder
+            // 🔹 FETCH
+            .addCase(fetchPlaces.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(fetchPlaces.fulfilled, (state, action) => {
-                state.places = action.payload;
+                state.loading = false;
+                state.items = action.payload;
             })
+            .addCase(fetchPlaces.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+
+            // 🔹 ADD
             .addCase(addPlace.fulfilled, (state, action) => {
-                state.places.push(action.payload);
+                state.items.push(action.payload);
             })
+
+            // 🔹 UPDATE
             .addCase(updatePlace.fulfilled, (state, action) => {
-                const index = state.places.findIndex((p) => p.id === action.payload.id);
-                if (index !== -1) state.places[index] = action.payload;
+                const {id, data} = action.payload;
+                const index = state.items.findIndex((p) => p.id === id);
+                if (index !== -1) {
+                    state.items[index] = {...state.items[index], ...data};
+                }
             })
+
+            // 🔹 DELETE
             .addCase(deletePlace.fulfilled, (state, action) => {
-                state.places = state.places.filter((p) => p.id !== action.payload);
+                state.items = state.items.filter((p) => p.id !== action.payload);
             });
     },
 });
 
+export const {clearPlaces} = placesSlice.actions;
 export default placesSlice.reducer;

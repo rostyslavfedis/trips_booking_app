@@ -25,7 +25,7 @@ const Register: React.FC = () => {
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", bgcolor: "#f9f9f9" }}>
             <Paper sx={{ p: 4, width: 360, boxShadow: 3, borderRadius: 3 }}>
                 <Typography variant="h5" align="center" mb={3}>
-                    Реєстрація
+                    SIGN UP
                 </Typography>
 
                 <form onSubmit={handleSubmit}>
@@ -38,7 +38,7 @@ const Register: React.FC = () => {
                     />
                     <TextField
                         fullWidth
-                        label="Пароль"
+                        label="Password"
                         type="password"
                         margin="normal"
                         value={password}
@@ -46,7 +46,7 @@ const Register: React.FC = () => {
                     />
                     <TextField
                         fullWidth
-                        label="Підтвердити пароль"
+                        label="Confirm Password"
                         type="password"
                         margin="normal"
                         value={confirm}
@@ -67,11 +67,11 @@ const Register: React.FC = () => {
                         sx={{ mt: 3, mb: 2 }}
                         disabled={loading}
                     >
-                        {loading ? <CircularProgress size={24} /> : "Зареєструватися"}
+                        {loading ? <CircularProgress size={24} /> : "Register"}
                     </Button>
 
                     <Typography variant="body2" align="center">
-                        Вже маєте акаунт?{" "}
+                        Already have an account?{" "}
                         <Link onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>
                             Увійти
                         </Link>
