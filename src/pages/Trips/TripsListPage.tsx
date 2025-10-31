@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Grid, Typography, CircularProgress, Button } from "@mui/material";
+import { Grid, Typography, CircularProgress, Tooltip, IconButton } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { fetchUserTrips, deleteTrip } from "../../features/trips/tripsThunks";
 import TripCard from "../../components/TripCard";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import {Trip} from "../../types";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 
 const TripsListPage: React.FC = () => {
@@ -27,24 +29,29 @@ const TripsListPage: React.FC = () => {
 
     return (
         <div>
-            <Typography variant="h4" sx={{ mb: 2 }}>
+           < div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <Typography variant="h4" sx={{ fontWeight: 600, display: "flex", alignItems: "center", gap: 1 }}>
+                <TravelExploreIcon color="primary" />
                 My Trips
             </Typography>
 
-            <Button
-                variant="contained"
-                sx={{ mb: 2 }}
-                onClick={() => navigate("/trips/new")}
-            >
-                Create Trip
-            </Button>
-
+            <Tooltip title="Create new trip">
+                <IconButton
+                    color="primary"
+                    component={Link}
+                    to="/trips/new"
+                    sx={{ fontSize: 28 }}
+                >
+                    <AddCircleIcon fontSize="inherit" />
+                </IconButton>
+            </Tooltip>
+           </div>
             <Grid container spacing={2}>
                 {items
-                    .filter((trip): trip is Trip => !!trip.id) // Type Guard: залишаємо тільки ті з id
+                    .filter((trip): trip is Trip => !!trip.id)
                     .map((trip) => (
                         <Grid
-                            key={String(trip.id)} // перетворюємо id в string
+                            key={String(trip.id)}
                         >
                             <TripCard trip={trip} onDelete={handleDelete} />
                         </Grid>

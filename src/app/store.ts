@@ -6,8 +6,7 @@ export const store = configureStore({
     reducer: {
         auth: authReducer,
         trips: tripsReducer,
-    },
-    // middleware: (getDefault) => getDefault(), // додай якщо потрібно
+    }
 });
 
 export type RootState = ReturnType<typeof store.getState>;

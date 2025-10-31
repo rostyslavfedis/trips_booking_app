@@ -1,4 +1,3 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebaseInit";
@@ -30,5 +29,5 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
     await signOut(auth);
-    return null; // повертаємо null, щоб очистити користувача в state
+    return null;
 });

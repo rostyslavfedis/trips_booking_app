@@ -15,4 +15,19 @@ export interface Trip {
     createdAt?: any;
     updatedAt?: any;
 }
+export interface Place {
+    id: string;
+    tripId: string;
+    locationName: string;
+    notes?: string;
+    dayNumber: number;
+    createdBy: string;
+}
+
+export interface PlacesState {
+    places: Place[];
+    loading: boolean;
+    error: string | null;
+}
+
 

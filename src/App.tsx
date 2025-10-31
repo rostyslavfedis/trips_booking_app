@@ -20,11 +20,9 @@ const App = () => {
             <Navbar />
             <div style={{ padding: "24px", maxWidth: "1200px", margin: "0 auto" }}>
                 <Routes>
-                    {/* ======== AUTH ======== */}
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
 
-                    {/* ======== TRIPS ======== */}
                     <Route
                         path="/trips"
                         element={
@@ -57,8 +55,6 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
-
-                    {/* ======== DEFAULT ======== */}
                     <Route path="/" element={<Navigate to="/trips" />} />
                     <Route path="*" element={<h2>404 — Page not found</h2>} />
                 </Routes>

@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 import {Trip} from "../../types";
 
-// ==== CREATE TRIP ====
 export const createTrip = createAsyncThunk(
     "trips/create",
     async (trip: Omit<Trip, "id" | "createdAt" | "updatedAt">) => {
@@ -29,7 +28,6 @@ export const createTrip = createAsyncThunk(
     }
 );
 
-// ==== FETCH USER TRIPS ====
 export const fetchUserTrips = createAsyncThunk("trips/fetchUserTrips", async (uid: string) => {
     const tripsRef = collection(db, "trips");
 
@@ -40,13 +38,11 @@ export const fetchUserTrips = createAsyncThunk("trips/fetchUserTrips", async (ui
 
     const trips: Trip[] = [];
 
-    // owner trips
     ownerSnap.forEach((d) => {
         const data = d.data() as Omit<Trip, "id">; // виключаємо id
         trips.push({ ...data, id: d.id }); // додаємо id останнім
     });
 
-    // collaborator trips
     collabSnap.forEach((d) => {
         const data = d.data() as Omit<Trip, "id">;
         if (!trips.some((t) => t.id === d.id)) {
@@ -57,7 +53,6 @@ export const fetchUserTrips = createAsyncThunk("trips/fetchUserTrips", async (ui
     return trips;
 });
 
-// ==== UPDATE TRIP ====
 export const updateTrip = createAsyncThunk(
     "trips/update",
     async ({ id, updates }: { id: string; updates: Partial<Trip> }) => {
@@ -67,7 +62,6 @@ export const updateTrip = createAsyncThunk(
     }
 );
 
-// ==== DELETE TRIP ====
 export const deleteTrip = createAsyncThunk("trips/delete", async (id: string) => {
     await deleteDoc(doc(db, "trips", id));
     return id;
